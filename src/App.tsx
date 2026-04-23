@@ -64,7 +64,7 @@ const baseMasonryItems = [
 ] as const
 
 const BATCH_SIZE = 12
-const MAX_ITEMS = 240
+const MAX_ITEMS = 12
 
 function App() {
   const [itemCount, setItemCount] = useState(BATCH_SIZE)

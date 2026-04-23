@@ -27,5 +27,3 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & VariantProps<typeof
 export function Button({ className, intent, size, ...props }: ButtonProps) {
   return <button className={cn(buttonVariants({ intent, size }), className)} {...props} />
 }
-
-

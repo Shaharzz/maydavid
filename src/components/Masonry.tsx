@@ -107,7 +107,7 @@ const Masonry: React.FC<MasonryProps> = ({
     const nextGrid = items.map(child => {
       const col = colHeights.indexOf(Math.min(...colHeights));
       const x = columnWidth * col;
-      const height = child.height / 2;
+      const height = child.height;
       const y = colHeights[col];
 
       colHeights[col] += height;
@@ -126,8 +126,8 @@ const Masonry: React.FC<MasonryProps> = ({
     grid.forEach(item => {
       const selector = `[data-key="${item.id}"]`;
       const animationProps = {
-        x: item.x,
-        y: item.y,
+        left: item.x,
+        top: item.y,
         width: item.w,
         height: item.h
       };
@@ -150,7 +150,6 @@ const Masonry: React.FC<MasonryProps> = ({
   useEffect(() => {
     if (!imagesReady || !containerRef.current) return;
 
-    setVisibleIds(new Set());
 
     const observer = new IntersectionObserver(
       entries => {

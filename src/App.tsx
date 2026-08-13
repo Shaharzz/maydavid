@@ -1,6 +1,6 @@
 import Prism from './components/Prism.tsx'
 import TextType from './components/TextType.tsx'
-import DriftWall from './components/DriftWall'
+import AccordionGallery from './components/AccordionGallery'
 
 const prismConfig = {
   height: 4,
@@ -23,22 +23,12 @@ const prismConfig = {
 const introText = `Hey! I'm May David.
 A 17-year-old video editor from Israel crafting visual stories. Whether it is a fast-paced K-Pop edit or a polished commercial campaign, I turn raw footage into captivating content.`
 
-const driftItems = [
-  { image: 'https://picsum.photos/id/1015/600/400', title: 'Peaks', href: 'https://example.com/one' },
-  { image: 'https://picsum.photos/id/1025/600/400', title: 'Pup', href: 'https://example.com/two' },
-  { image: 'https://picsum.photos/id/1039/600/400', title: 'Falls', href: 'https://example.com/three' },
-  { image: 'https://picsum.photos/id/1043/600/400', title: 'Motion', href: 'https://example.com/four' },
-  { image: 'https://picsum.photos/id/1044/600/400', title: 'Noise', href: 'https://example.com/five' },
-  { image: 'https://picsum.photos/id/1050/600/400', title: 'Frame', href: 'https://example.com/six' },
-  { image: 'https://picsum.photos/id/1062/600/400', title: 'Pulse', href: 'https://example.com/seven' },
-  { image: 'https://picsum.photos/id/1069/600/400', title: 'Echo', href: 'https://example.com/eight' },
-  { image: 'https://picsum.photos/id/1074/600/400', title: 'Shift', href: 'https://example.com/nine' },
-  { image: 'https://picsum.photos/id/1080/600/400', title: 'Glow', href: 'https://example.com/ten' },
-  { image: 'https://picsum.photos/id/1084/600/400', title: 'Current', href: 'https://example.com/eleven' },
-  { image: 'https://picsum.photos/id/106/600/400', title: 'Bloom', href: 'https://example.com/twelve' },
-  { image: 'https://picsum.photos/id/110/600/400', title: 'Wave', href: 'https://example.com/thirteen' },
-  { image: 'https://picsum.photos/id/133/600/400', title: 'Night', href: 'https://example.com/fourteen' },
-  { image: 'https://picsum.photos/id/164/600/400', title: 'Signal', href: 'https://example.com/fifteen' },
+const galleryItems = [
+  { video: '/videos/reel-1.mp4', image: 'https://picsum.photos/id/1015/900/1200', label: 'KFC', link: '#' },
+  { video: '/videos/reel-2.mp4', image: 'https://picsum.photos/id/1018/900/1200', label: 'MCdonalds', link: '#' },
+  { video: '/videos/reel-3.mp4', image: 'https://picsum.photos/id/1039/900/1200', label: 'TAYO', link: '#' },
+  { video: '/videos/reel-4.mp4', image: 'https://picsum.photos/id/1043/900/1200', label: 'AESPA', link: '#' },
+  { video: '/videos/reel-5.mp4', image: 'https://picsum.photos/id/1044/900/1200', label: 'TWICE', link: '#' },
 ]
 
 function App() {
@@ -69,25 +59,25 @@ function App() {
             </div>
           </div>
 
-          <div className="h-[460px] overflow-hidden rounded-[28px] border border-white/10 bg-black/30 shadow-[0_30px_80px_rgba(0,0,0,0.5)] backdrop-blur-sm md:h-[620px]">
-            <DriftWall
-              items={driftItems}
-              columns={5}
-              tileWidth={200}
-              tileHeight={132}
-              gap={18}
-              tilt={16}
-              turn={-14}
-              perspective={1200}
-              depth={120}
-              speed={42}
-              direction="up"
-              variance={0.45}
-              parallax={0.6}
-              lift={64}
-              fade={0.6}
-              dim={0.55}
+          <div className="rounded-[28px] border border-white/10 bg-black/30 p-3 shadow-[0_30px_80px_rgba(0,0,0,0.5)] backdrop-blur-sm md:p-4">
+            <AccordionGallery
+              items={galleryItems}
+              defaultIndex={2}
+              expandRatio={0.52}
+              trigger="hover"
+              height={520}
+              gap={12}
+              radius={20}
+              accentColor="#f5f5f5"
               overlayColor="#060010"
+              textColor="#ffffff"
+              grayscale={true}
+              showLabels={true}
+              duration={0.6}
+              ease="power3.out"
+              parallax={0.5}
+              tilt={8}
+              stagger={0.06}
             />
           </div>
         </section>

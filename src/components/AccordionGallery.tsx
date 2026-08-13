@@ -210,6 +210,8 @@ const AccordionGallery = ({
     if (effectiveTrigger === 'hover') setActive(i);
   };
 
+  const closeVideo = () => setSelectedVideo(null);
+
   const handleClick = (item: AccordionGalleryItem, i: number, e: MouseEvent) => {
     if (item.video) {
       e.preventDefault();
@@ -374,9 +376,22 @@ const AccordionGallery = ({
       </div>
 
       {selectedVideo && (
-        <div className="ag-player-backdrop" onClick={() => setSelectedVideo(null)} role="dialog" aria-modal="true" aria-label={selectedVideo.label || 'Video player'}>
-          <div className="ag-player" onClick={(e) => e.stopPropagation()}>
-            <button type="button" className="ag-player__close" onClick={() => setSelectedVideo(null)} aria-label="Close video">
+        <div
+          className="ag-player-backdrop"
+          onPointerDown={(e) => {
+            const target = e.target as HTMLElement | null;
+            if (!target?.closest('.ag-player')) closeVideo();
+          }}
+          onClick={(e) => {
+            const target = e.target as HTMLElement | null;
+            if (!target?.closest('.ag-player')) closeVideo();
+          }}
+          role="dialog"
+          aria-modal="true"
+          aria-label={selectedVideo.label || 'Video player'}
+        >
+          <div className="ag-player" onClick={(e) => e.stopPropagation()} onPointerDown={(e) => e.stopPropagation()}>
+            <button type="button" className="ag-player__close" onClick={closeVideo} aria-label="Close video">
               ×
             </button>
             <video key={selectedVideo.video} src={selectedVideo.video} controls autoPlay playsInline className="ag-player__video" />

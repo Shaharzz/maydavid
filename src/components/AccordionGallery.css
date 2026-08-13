@@ -126,21 +126,24 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 24px;
   background: rgba(5, 5, 11, 0.82);
   backdrop-filter: blur(10px);
+  touch-action: manipulation;
 }
 
 .ag-player {
   position: relative;
-  width: min(90vw, 1100px);
-  max-height: 82vh;
+  width: min(94vw, 1280px);
+  max-height: 88vh;
   border-radius: 24px;
   overflow: hidden;
   background: #05070d;
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+  touch-action: manipulation;
 }
 
 .ag-player__video {

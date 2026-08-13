@@ -34,11 +34,11 @@ export interface AccordionGalleryProps {
 }
 
 const DEFAULT_ITEMS: AccordionGalleryItem[] = [
-  { image: 'https://picsum.photos/id/1015/900/1200', label: 'Canyon', link: '#' },
-  { image: 'https://picsum.photos/id/1018/900/1200', label: 'Ridgeline', link: '#' },
-  { image: 'https://picsum.photos/id/1039/900/1200', label: 'Falls', link: '#' },
-  { image: 'https://picsum.photos/id/1043/900/1200', label: 'Harbour', link: '#' },
-  { image: 'https://picsum.photos/id/1044/900/1200', label: 'Skyline', link: '#' },
+  { label: 'Canyon', link: '#' },
+  { label: 'Ridgeline', link: '#' },
+  { label: 'Falls', link: '#' },
+  { label: 'Harbour', link: '#' },
+  { label: 'Skyline', link: '#' },
 ];
 
 const AccordionGallery = ({
@@ -65,6 +65,7 @@ const AccordionGallery = ({
   const rootRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<(HTMLElement | null)[]>([]);
   const mediaRefs = useRef<(HTMLElement | null)[]>([]);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const barRefs = useRef<(HTMLElement | null)[]>([]);
   const textRefs = useRef<(HTMLElement | null)[]>([]);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
@@ -173,6 +174,24 @@ const AccordionGallery = ({
   );
 
   useEffect(() => {
+    videoRefs.current.forEach((video, i) => {
+      if (!video) return;
+
+      if (i === active) {
+        const playPromise = video.play();
+        if (playPromise) {
+          void playPromise.catch(() => {
+            // autoplay can be blocked until the user interacts; keep the video muted and let manual play continue.
+          });
+        }
+      } else {
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
+  }, [active]);
+
+  useEffect(() => {
     if (!selectedVideo) return;
 
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
@@ -259,13 +278,16 @@ const AccordionGallery = ({
                     }}
                   >
                     <video
+                      ref={(el: HTMLVideoElement | null) => {
+                        videoRefs.current[i] = el;
+                      }}
                       src={item.video}
                       poster={item.image}
                       muted
                       playsInline
-                      autoPlay
+                      autoPlay={false}
                       loop
-                      preload="metadata"
+                      preload={i === active ? 'auto' : 'metadata'}
                       className="ag-panel__media-video"
                     />
                   </span>

@@ -1,6 +1,9 @@
+import { useEffect, useState } from 'react'
 import Prism from './components/Prism.tsx'
-import TextType from './components/TextType.tsx'
+import ScrollFloat from './components/ScrollFloat'
 import AccordionGallery from './components/AccordionGallery'
+import GooeyNav from './components/GooeyNav'
+import ScrollReveal from './components/ScrollReveal'
 
 const prismConfig = {
   height: 4,
@@ -20,36 +23,98 @@ const prismConfig = {
   timeScale: 0.1,
 } as const
 
-const introText = `Hey! I'm May David.
-A 17-year-old video editor from Israel crafting visual stories. Whether it is a fast-paced K-Pop edit or a polished commercial campaign, I turn raw footage into captivating content.`
-
 const galleryItems = [
-  { video: '/videos/VideoStar (52).mp4', image: 'https://picsum.photos/id/1015/900/1200', label: 'KFC', link: '#' },
-  { video: '/videos/VideoStar (53).mp4', image: 'https://picsum.photos/id/1018/900/1200', label: 'MCdonalds', link: '#' },
-  { video: '/videos/VideoStar.mp4', image: 'https://picsum.photos/id/1039/900/1200', label: 'TAYO', link: '#' },
+  { video: '/videos/VideoStar.mp4', label: 'TAYO', link: '#' },
+  { video: '/videos/VideoStar (53).mp4', label: 'MCdonalds', link: '#' },
+  { video: '/videos/VideoStar (52).mp4', label: 'KFC', link: '#' },
+  { video: '/videos/VideoStar (39).mov', label: 'Campaign 1', link: '#' },
+  { video: '/videos/VideoStar (10).mp4', label: 'Campaign 2', link: '#' },
 ]
 
 function App() {
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false)
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   return (
     <main className="relative min-h-screen w-full overflow-x-hidden bg-[#04030a] text-white">
-      <div className="fixed inset-0 z-0">
-        <Prism {...prismConfig} />
+      <div className="fixed inset-0 z-0 bg-[#04030a]">
+        {!isMobile && <Prism {...prismConfig} />}
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20 pt-10 md:px-10 md:pt-14">
-        <section>
-          <TextType
-            as="h1"
-            text={introText}
-            className="max-w-4xl whitespace-pre-wrap text-xl font-medium leading-relaxed text-white md:text-3xl"
-            loop={false}
-            showCursor={true}
-            typingSpeed={50}
-            initialDelay={200}
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-20 pt-6 md:px-10 md:pt-8">
+        <header className="mb-6 flex justify-center md:mb-8">
+          <GooeyNav
+            items={[
+              { label: 'Home', href: '#home' },
+              { label: 'About', href: '#about' },
+              { label: 'Projects', href: '#projects' },
+              { label: 'Contact', href: '#contact' },
+            ]}
+            particleCount={15}
+            particleDistances={[90, 10]}
+            particleR={100}
+            initialActiveIndex={0}
+            animationTime={600}
+            timeVariance={300}
+            colors={[1, 2, 3, 1, 2, 3, 1, 4]}
           />
+        </header>
+
+        <section id="home" className="mb-12 space-y-1 py-2 md:mb-16 md:space-y-3 md:py-8">
+          <div className="flex min-h-[20vh] items-center justify-center sm:min-h-[24vh] md:min-h-[28vh]">
+            <h2 className="m-0 text-center text-[clamp(2.5rem,17vw,10rem)] font-black leading-[0.85] tracking-[-0.06em] text-white drop-shadow-[0_0_18px_rgba(255,255,255,0.25)]">
+              Lights
+            </h2>
+          </div>
+
+          <div className="flex min-h-[24vh] items-center justify-center sm:min-h-[30vh] md:min-h-[40vh]">
+            <ScrollFloat
+              animationDuration={1}
+              ease="back.inOut(2)"
+              scrollStart="top 85%"
+              scrollEnd="bottom 20%"
+              stagger={0.04}
+              containerClassName="!m-0 !text-center"
+              textClassName="!text-[clamp(2.5rem,17vw,10rem)] !tracking-[-0.06em] !leading-[0.85] !font-black !text-white !drop-shadow-[0_0_18px_rgba(255,255,255,0.25)]"
+            >
+              Camera
+            </ScrollFloat>
+          </div>
+
+          <div className="flex min-h-[24vh] items-center justify-center sm:min-h-[30vh] md:min-h-[40vh]">
+            <ScrollFloat
+              animationDuration={1}
+              ease="back.inOut(2)"
+              scrollStart="top 85%"
+              scrollEnd="bottom 20%"
+              stagger={0.04}
+              containerClassName="!m-0 !text-center"
+              textClassName="!text-[clamp(2.5rem,17vw,10rem)] !tracking-[-0.06em] !leading-[0.85] !font-black !text-white !drop-shadow-[0_0_18px_rgba(255,255,255,0.25)]"
+            >
+              Action!
+            </ScrollFloat>
+          </div>
         </section>
 
-        <section className="mt-12 md:mt-20">
+        <section id="about" className="mt-12 min-h-[70vh] py-12 md:mt-20 md:min-h-[80vh] md:py-20">
+          <ScrollReveal
+            enableBlur={true}
+            baseOpacity={0.1}
+            baseRotation={3}
+            blurStrength={4}
+            containerClassName="!m-0"
+            textClassName="!mx-auto !max-w-4xl !text-white !font-medium !leading-relaxed !tracking-[-0.02em]"
+          >
+            Hi, I&apos;m May David, an 18-year-old video editor with a love for turning raw footage into stories that feel alive. I create content that blends rhythm, emotion, and visual clarity — from fast-paced K-pop edits to polished brand storytelling and social-first campaigns.
+          </ScrollReveal>
+        </section>
+
+        <section id="projects" className="mt-12 md:mt-20">
           <div className="mb-6 flex items-end justify-between gap-4">
             <div>
               <p className="text-xs uppercase tracking-[0.35em] text-white/60">Selected work</p>
@@ -77,6 +142,20 @@ function App() {
               tilt={8}
               stagger={0.06}
             />
+          </div>
+
+        </section>
+
+        <section id="contact" className="mt-16 pb-8 pt-12 md:mt-20 md:pb-12">
+          <div className="rounded-[28px] border border-white/10 bg-white/5 px-6 py-8 text-center backdrop-blur-sm md:px-10">
+            <p className="text-xs uppercase tracking-[0.35em] text-white/60">Let&apos;s create</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white md:text-5xl">Need a video that feels cinematic?</h2>
+            <a
+              href="mailto:hello@maydavid.com"
+              className="mt-6 inline-block rounded-full border border-white/20 bg-white px-6 py-3 text-sm font-medium text-black transition hover:scale-[1.02]"
+            >
+              hello@maydavid.com
+            </a>
           </div>
         </section>
       </div>

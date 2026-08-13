@@ -81,7 +81,7 @@ const Prism: React.FC<PrismProps> = ({
       width: '100%',
       height: '100%',
       display: 'block',
-      backgroundColor: '#17151a'
+      background: 'transparent'
     } as Partial<CSSStyleDeclaration>);
     container.appendChild(gl.canvas);
 

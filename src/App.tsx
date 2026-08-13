@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
 import Prism from './components/Prism.tsx'
-import Masonry from './components/Masonry.tsx'
 import TextType from './components/TextType.tsx'
+import DriftWall from './components/DriftWall'
 
 const prismConfig = {
   height: 4,
@@ -24,90 +23,27 @@ const prismConfig = {
 const introText = `Hey! I'm May David.
 A 17-year-old video editor from Israel crafting visual stories. Whether it is a fast-paced K-Pop edit or a polished commercial campaign, I turn raw footage into captivating content.`
 
-const baseMasonryItems = [
-  {
-    id: '1',
-    img: 'https://picsum.photos/id/1015/900/1200',
-    url: 'https://example.com/reel-1',
-    height: 420,
-  },
-  {
-    id: '2',
-    img: 'https://picsum.photos/id/1011/900/1100',
-    url: 'https://example.com/reel-2',
-    height: 300,
-  },
-  {
-    id: '3',
-    img: 'https://picsum.photos/id/1020/900/1300',
-    url: 'https://example.com/reel-3',
-    height: 520,
-  },
-  {
-    id: '4',
-    img: 'https://picsum.photos/id/1025/900/1150',
-    url: 'https://example.com/reel-4',
-    height: 360,
-  },
-  {
-    id: '5',
-    img: 'https://picsum.photos/id/1035/900/1250',
-    url: 'https://example.com/reel-5',
-    height: 480,
-  },
-  {
-    id: '6',
-    img: 'https://picsum.photos/id/1041/900/1180',
-    url: 'https://example.com/reel-6',
-    height: 340,
-  },
-] as const
-
-const BATCH_SIZE = 12
-const MAX_ITEMS = 12
+const driftItems = [
+  { image: 'https://picsum.photos/id/1015/600/400', title: 'Peaks', href: 'https://example.com/one' },
+  { image: 'https://picsum.photos/id/1025/600/400', title: 'Pup', href: 'https://example.com/two' },
+  { image: 'https://picsum.photos/id/1039/600/400', title: 'Falls', href: 'https://example.com/three' },
+  { image: 'https://picsum.photos/id/1043/600/400', title: 'Motion', href: 'https://example.com/four' },
+  { image: 'https://picsum.photos/id/1044/600/400', title: 'Noise', href: 'https://example.com/five' },
+  { image: 'https://picsum.photos/id/1050/600/400', title: 'Frame', href: 'https://example.com/six' },
+  { image: 'https://picsum.photos/id/1062/600/400', title: 'Pulse', href: 'https://example.com/seven' },
+  { image: 'https://picsum.photos/id/1069/600/400', title: 'Echo', href: 'https://example.com/eight' },
+  { image: 'https://picsum.photos/id/1074/600/400', title: 'Shift', href: 'https://example.com/nine' },
+  { image: 'https://picsum.photos/id/1080/600/400', title: 'Glow', href: 'https://example.com/ten' },
+  { image: 'https://picsum.photos/id/1084/600/400', title: 'Current', href: 'https://example.com/eleven' },
+  { image: 'https://picsum.photos/id/106/600/400', title: 'Bloom', href: 'https://example.com/twelve' },
+  { image: 'https://picsum.photos/id/110/600/400', title: 'Wave', href: 'https://example.com/thirteen' },
+  { image: 'https://picsum.photos/id/133/600/400', title: 'Night', href: 'https://example.com/fourteen' },
+  { image: 'https://picsum.photos/id/164/600/400', title: 'Signal', href: 'https://example.com/fifteen' },
+]
 
 function App() {
-  const [itemCount, setItemCount] = useState(BATCH_SIZE)
-  const loadMoreRef = useRef<HTMLDivElement | null>(null)
-
-  const masonryItems = useMemo(
-    () =>
-      Array.from({ length: itemCount }, (_, index) => {
-        const base = baseMasonryItems[index % baseMasonryItems.length]
-        const heightOffset = (index % 4) * 40
-
-        return {
-          ...base,
-          id: `${base.id}-${index}`,
-          height: base.height + heightOffset,
-        }
-      }),
-    [itemCount],
-  )
-
-  useEffect(() => {
-    const sentinel = loadMoreRef.current
-    if (!sentinel) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const isVisible = entries.some((entry) => entry.isIntersecting)
-        if (!isVisible) return
-
-        setItemCount((previousCount) => {
-          if (previousCount >= MAX_ITEMS) return previousCount
-          return Math.min(previousCount + BATCH_SIZE, MAX_ITEMS)
-        })
-      },
-      { rootMargin: '0px 0px 900px 0px', threshold: 0 },
-    )
-
-    observer.observe(sentinel)
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <main className="relative min-h-screen w-full overflow-x-hidden">
+    <main className="relative min-h-screen w-full overflow-x-hidden bg-[#04030a] text-white">
       <div className="fixed inset-0 z-0">
         <Prism {...prismConfig} />
       </div>
@@ -125,25 +61,37 @@ function App() {
           />
         </section>
 
-        <div className="h-[85vh] md:h-[110vh]" aria-hidden="true" />
+        <section className="mt-12 md:mt-20">
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] text-white/60">Selected work</p>
+              <h2 className="mt-2 text-2xl font-semibold text-white md:text-4xl">Video showcase</h2>
+            </div>
+          </div>
 
-        <div className="rounded-2xl bg-black/20 backdrop-blur-[1px]">
-          <Masonry
-            items={masonryItems}
-            ease="power3.out"
-            duration={0.6}
-            stagger={0.05}
-            animateFrom="bottom"
-            scaleOnHover={true}
-            hoverScale={0.95}
-            blurToFocus={true}
-            colorShiftOnHover={false}
-          />
-        </div>
-
-        <div ref={loadMoreRef} className="h-16" />
+          <div className="h-[460px] overflow-hidden rounded-[28px] border border-white/10 bg-black/30 shadow-[0_30px_80px_rgba(0,0,0,0.5)] backdrop-blur-sm md:h-[620px]">
+            <DriftWall
+              items={driftItems}
+              columns={5}
+              tileWidth={200}
+              tileHeight={132}
+              gap={18}
+              tilt={16}
+              turn={-14}
+              perspective={1200}
+              depth={120}
+              speed={42}
+              direction="up"
+              variance={0.45}
+              parallax={0.6}
+              lift={64}
+              fade={0.6}
+              dim={0.55}
+              overlayColor="#060010"
+            />
+          </div>
+        </section>
       </div>
-
     </main>
   )
 }

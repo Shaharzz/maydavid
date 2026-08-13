@@ -76,6 +76,8 @@ const AccordionGallery = ({
   const count = items.length;
   const [active, setActive] = useState(Math.min(Math.max(defaultIndex, 0), count - 1));
   const [selectedVideo, setSelectedVideo] = useState<AccordionGalleryItem | null>(null);
+  const isTouchDevice = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(pointer: coarse)').matches : false;
+  const effectiveTrigger = isTouchDevice ? 'click' : trigger;
 
   const prefersReduced =
     typeof window !== 'undefined' && window.matchMedia
@@ -174,6 +176,8 @@ const AccordionGallery = ({
   );
 
   useEffect(() => {
+    if (isTouchDevice) return;
+
     videoRefs.current.forEach((video, i) => {
       if (!video) return;
 
@@ -189,7 +193,7 @@ const AccordionGallery = ({
         video.currentTime = 0;
       }
     });
-  }, [active]);
+  }, [active, isTouchDevice]);
 
   useEffect(() => {
     if (!selectedVideo) return;
@@ -203,7 +207,7 @@ const AccordionGallery = ({
   }, [selectedVideo]);
 
   const handleEnter = (i: number) => {
-    if (trigger === 'hover') setActive(i);
+    if (effectiveTrigger === 'hover') setActive(i);
   };
 
   const handleClick = (item: AccordionGalleryItem, i: number, e: MouseEvent) => {

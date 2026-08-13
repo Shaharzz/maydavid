@@ -24,11 +24,11 @@ const prismConfig = {
 } as const
 
 const galleryItems = [
-  { video: '/videos/VideoStar.mp4', label: 'TAYO', link: '#' },
-  { video: '/videos/VideoStar (53).mp4', label: 'MCdonalds', link: '#' },
-  { video: '/videos/VideoStar (52).mp4', label: 'KFC', link: '#' },
-  { video: '/videos/VideoStar (39).mov', label: 'Campaign 1', link: '#' },
-  { video: '/videos/VideoStar (10).mp4', label: 'Campaign 2', link: '#' },
+  { video: '/videos/VideoStar.mp4', label: 'Campaign 1', link: '#' },
+  { video: '/videos/VideoStar (53).mp4', label: 'Campaign 2', link: '#' },
+  { video: '/videos/VideoStar (52)-web.mp4', label: 'Campaign 3', link: '#' },
+  { video: '/videos/VideoStar (39).mov', label: 'Campaign 4', link: '#' },
+  { video: '/videos/VideoStar (10)-web.mp4', label: 'Campaign 5', link: '#' },
 ]
 
 function App() {
@@ -127,7 +127,7 @@ function App() {
               items={galleryItems}
               defaultIndex={2}
               expandRatio={0.52}
-              trigger="hover"
+              trigger={isMobile ? 'click' : 'hover'}
               height={520}
               gap={12}
               radius={20}

@@ -24,11 +24,9 @@ const introText = `Hey! I'm May David.
 A 17-year-old video editor from Israel crafting visual stories. Whether it is a fast-paced K-Pop edit or a polished commercial campaign, I turn raw footage into captivating content.`
 
 const galleryItems = [
-  { video: '/videos/reel-1.mp4', image: 'https://picsum.photos/id/1015/900/1200', label: 'KFC', link: '#' },
-  { video: '/videos/reel-2.mp4', image: 'https://picsum.photos/id/1018/900/1200', label: 'MCdonalds', link: '#' },
-  { video: '/videos/reel-3.mp4', image: 'https://picsum.photos/id/1039/900/1200', label: 'TAYO', link: '#' },
-  { video: '/videos/reel-4.mp4', image: 'https://picsum.photos/id/1043/900/1200', label: 'AESPA', link: '#' },
-  { video: '/videos/reel-5.mp4', image: 'https://picsum.photos/id/1044/900/1200', label: 'TWICE', link: '#' },
+  { video: '/videos/VideoStar (52).mp4', image: 'https://picsum.photos/id/1015/900/1200', label: 'KFC', link: '#' },
+  { video: '/videos/VideoStar (53).mp4', image: 'https://picsum.photos/id/1018/900/1200', label: 'MCdonalds', link: '#' },
+  { video: '/videos/VideoStar.mp4', image: 'https://picsum.photos/id/1039/900/1200', label: 'TAYO', link: '#' },
 ]
 
 function App() {

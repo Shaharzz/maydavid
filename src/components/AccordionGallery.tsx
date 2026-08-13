@@ -74,6 +74,7 @@ const AccordionGallery = ({
   const vertical = orientation === 'vertical';
   const count = items.length;
   const [active, setActive] = useState(Math.min(Math.max(defaultIndex, 0), count - 1));
+  const [selectedVideo, setSelectedVideo] = useState<AccordionGalleryItem | null>(null);
 
   const prefersReduced =
     typeof window !== 'undefined' && window.matchMedia
@@ -171,11 +172,29 @@ const AccordionGallery = ({
     [],
   );
 
+  useEffect(() => {
+    if (!selectedVideo) return;
+
+    const onKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === 'Escape') setSelectedVideo(null);
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [selectedVideo]);
+
   const handleEnter = (i: number) => {
     if (trigger === 'hover') setActive(i);
   };
 
-  const handleClick = (i: number, e: MouseEvent) => {
+  const handleClick = (item: AccordionGalleryItem, i: number, e: MouseEvent) => {
+    if (item.video) {
+      e.preventDefault();
+      setActive(i);
+      setSelectedVideo(item);
+      return;
+    }
+
     if (i !== active) {
       e.preventDefault();
       setActive(i);
@@ -202,80 +221,143 @@ const AccordionGallery = ({
   } as CSSProperties;
 
   return (
-    <div
-      ref={rootRef}
-      className={`accordion-gallery${vertical ? ' accordion-gallery--vertical' : ''}${className ? ` ${className}` : ''}`}
-      style={rootStyle}
-      role="list"
-      aria-label="Image accordion gallery"
-    >
-      {items.map((item, i) => {
-        const isActive = i === active;
-        const Tag = (item.link ? 'a' : 'div') as 'a';
-        return (
-          <Tag
-            key={i}
-            ref={(el: HTMLElement | null) => {
-              panelRefs.current[i] = el;
-            }}
-            className={`ag-panel${isActive ? ' ag-panel--active' : ''}`}
-            style={{ borderRadius: `${radius}px` }}
-            href={item.link || undefined}
-            onClick={(e) => handleClick(i, e)}
-            onMouseEnter={() => handleEnter(i)}
-            onFocus={() => setActive(i)}
-            onKeyDown={(e) => handleKeyDown(i, e)}
-            role="listitem"
-            tabIndex={0}
-            aria-current={isActive ? 'true' : undefined}
-            aria-label={item.label}
-          >
-            <span className="ag-panel__frame">
-              <span
-                className="ag-panel__media"
+    <>
+      <div
+        ref={rootRef}
+        className={`accordion-gallery${vertical ? ' accordion-gallery--vertical' : ''}${className ? ` ${className}` : ''}`}
+        style={rootStyle}
+        role="list"
+        aria-label="Image accordion gallery"
+      >
+        {items.map((item, i) => {
+          const isActive = i === active;
+
+          if (item.video) {
+            return (
+              <button
+                key={i}
+                type="button"
                 ref={(el: HTMLElement | null) => {
-                  mediaRefs.current[i] = el;
+                  panelRefs.current[i] = el;
                 }}
+                className={`ag-panel${isActive ? ' ag-panel--active' : ''}`}
+                style={{ borderRadius: `${radius}px` }}
+                onClick={(e) => handleClick(item, i, e)}
+                onMouseEnter={() => handleEnter(i)}
+                onFocus={() => setActive(i)}
+                onKeyDown={(e) => handleKeyDown(i, e)}
+                role="listitem"
+                tabIndex={0}
+                aria-current={isActive ? 'true' : undefined}
+                aria-label={item.label}
               >
-                {item.video ? (
-                  <video
-                    src={item.video}
-                    poster={item.image}
-                    muted
-                    playsInline
-                    autoPlay
-                    loop
-                    preload="metadata"
-                    className="ag-panel__media-video"
-                  />
-                ) : item.image ? (
-                  <img src={item.image} alt={item.alt || item.label || ''} draggable={false} />
-                ) : null}
-              </span>
-              <span className="ag-panel__overlay" aria-hidden="true" />
-            </span>
-            {showLabels && (
-              <span className="ag-panel__label" aria-hidden="true">
+                <span className="ag-panel__frame">
+                  <span
+                    className="ag-panel__media"
+                    ref={(el: HTMLElement | null) => {
+                      mediaRefs.current[i] = el;
+                    }}
+                  >
+                    <video
+                      src={item.video}
+                      poster={item.image}
+                      muted
+                      playsInline
+                      autoPlay
+                      loop
+                      preload="metadata"
+                      className="ag-panel__media-video"
+                    />
+                  </span>
+                  <span className="ag-panel__overlay" aria-hidden="true" />
+                </span>
+                {showLabels && (
+                  <span className="ag-panel__label" aria-hidden="true">
+                    <span
+                      className="ag-panel__bar"
+                      ref={(el: HTMLElement | null) => {
+                        barRefs.current[i] = el;
+                      }}
+                    />
+                    <span
+                      className="ag-panel__text"
+                      ref={(el: HTMLElement | null) => {
+                        textRefs.current[i] = el;
+                      }}
+                    >
+                      {item.label}
+                    </span>
+                  </span>
+                )}
+              </button>
+            );
+          }
+
+          return (
+            <a
+              key={i}
+              ref={(el: HTMLElement | null) => {
+                panelRefs.current[i] = el;
+              }}
+              className={`ag-panel${isActive ? ' ag-panel--active' : ''}`}
+              style={{ borderRadius: `${radius}px` }}
+              href={item.link || undefined}
+              onClick={(e) => handleClick(item, i, e)}
+              onMouseEnter={() => handleEnter(i)}
+              onFocus={() => setActive(i)}
+              onKeyDown={(e) => handleKeyDown(i, e)}
+              role="listitem"
+              tabIndex={0}
+              aria-current={isActive ? 'true' : undefined}
+              aria-label={item.label}
+            >
+              <span className="ag-panel__frame">
                 <span
-                  className="ag-panel__bar"
+                  className="ag-panel__media"
                   ref={(el: HTMLElement | null) => {
-                    barRefs.current[i] = el;
-                  }}
-                />
-                <span
-                  className="ag-panel__text"
-                  ref={(el: HTMLElement | null) => {
-                    textRefs.current[i] = el;
+                    mediaRefs.current[i] = el;
                   }}
                 >
-                  {item.label}
+                  {item.image ? (
+                    <img src={item.image} alt={item.alt || item.label || ''} draggable={false} />
+                  ) : null}
                 </span>
+                <span className="ag-panel__overlay" aria-hidden="true" />
               </span>
-            )}
-          </Tag>
-        );
-      })}
-    </div>
+              {showLabels && (
+                <span className="ag-panel__label" aria-hidden="true">
+                  <span
+                    className="ag-panel__bar"
+                    ref={(el: HTMLElement | null) => {
+                      barRefs.current[i] = el;
+                    }}
+                  />
+                  <span
+                    className="ag-panel__text"
+                    ref={(el: HTMLElement | null) => {
+                      textRefs.current[i] = el;
+                    }}
+                  >
+                    {item.label}
+                  </span>
+                </span>
+              )}
+            </a>
+          );
+        })}
+      </div>
+
+      {selectedVideo && (
+        <div className="ag-player-backdrop" onClick={() => setSelectedVideo(null)} role="dialog" aria-modal="true" aria-label={selectedVideo.label || 'Video player'}>
+          <div className="ag-player" onClick={(e) => e.stopPropagation()}>
+            <button type="button" className="ag-player__close" onClick={() => setSelectedVideo(null)} aria-label="Close video">
+              ×
+            </button>
+            <video key={selectedVideo.video} src={selectedVideo.video} controls autoPlay playsInline className="ag-player__video" />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

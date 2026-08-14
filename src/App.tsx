@@ -104,9 +104,9 @@ function App() {
         <section id="about" className="mt-12 min-h-[70vh] py-12 md:mt-20 md:min-h-[80vh] md:py-20">
           <ScrollReveal
             enableBlur={true}
-            baseOpacity={0.1}
+            baseOpacity={0.35}
             baseRotation={3}
-            blurStrength={4}
+            blurStrength={1.5}
             containerClassName="!m-0"
             textClassName="!mx-auto !max-w-4xl !text-white !font-medium !leading-relaxed !tracking-[-0.02em]"
           >

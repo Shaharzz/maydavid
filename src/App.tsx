@@ -24,11 +24,13 @@ const prismConfig = {
 } as const
 
 const galleryItems = [
-  { video: '/videos/VideoStar.mp4', label: 'Campaign 1', link: '#' },
-  { video: '/videos/VideoStar (53).mp4', label: 'Campaign 2', link: '#' },
-  { video: '/videos/VideoStar (52)-web.mp4', label: 'Campaign 3', link: '#' },
-  { video: '/videos/VideoStar (39).mov', label: 'Campaign 4', link: '#' },
-  { video: '/videos/VideoStar (10)-web.mp4', label: 'Campaign 5', link: '#' },
+  { video: '/videos/camp-1.mov', label: 'Campaign 1', link: '#' },
+  { video: '/videos/camp-2.mp4', label: 'Campaign 2', link: '#' },
+  { video: '/videos/camp-7.mov', label: 'Campaign 3', link: '#' },
+  { video: '/videos/camp-4.mp4', label: 'Campaign 4', link: '#' },
+  { video: '/videos/camp-5.mp4', label: 'Campaign 5', link: '#' },
+  { video: '/videos/camp-6.mp4', label: 'Campaign 6', link: '#' },
+  { video: '/videos/camp-3.mov', label: 'Campaign 7', link: '#' },
 ]
 
 function App() {

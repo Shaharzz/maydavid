@@ -153,7 +153,7 @@ function App() {
             <p className="text-xs uppercase tracking-[0.35em] text-white/60">Let&apos;s create</p>
             <h2 className="mt-3 text-3xl font-semibold text-white md:text-5xl">Need a video that feels cinematic?</h2>
             <a
-              href="mailto:hello@maydavid.com"
+              href="mailto:maydavid137@gmail.com"
               className="mt-6 inline-block rounded-full border border-white/20 bg-white px-6 py-3 text-sm font-medium text-black transition hover:scale-[1.02]"
             >
               hello@maydavid.com

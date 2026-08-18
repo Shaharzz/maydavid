@@ -156,7 +156,7 @@ function App() {
               href="mailto:maydavid137@gmail.com"
               className="mt-6 inline-block rounded-full border border-white/20 bg-white px-6 py-3 text-sm font-medium text-black transition hover:scale-[1.02]"
             >
-              hello@maydavid.com
+              maydavid137@gmail.com
             </a>
           </div>
         </section>
